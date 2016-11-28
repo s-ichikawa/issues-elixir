@@ -47,5 +47,8 @@ defmodule Issues.CLI do
 
   def process({user, project, _count}) do
     Issues.GithubIssues.fetch(user, project)
+    |> decode_response
+    |> convert_to_list_of_maps
+    |> sort_into_ascending_order
   end
 end
