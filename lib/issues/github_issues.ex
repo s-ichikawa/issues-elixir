@@ -1,6 +1,6 @@
 defmodule Issues.GithubIssues do
     @user_agent [ {"User-agent", "Elixir dave@pragprog.com"} ]
-    @github_url Applicatioin.get_env(:issues, :github_url)
+    @github_url Application.get_env(:issues, :github_url)
 
     def fetch(user, project) do
       issues_url(user, project)
@@ -20,22 +20,5 @@ defmodule Issues.GithubIssues do
       { :error, Poison.Parser.parse!(body) }
     end
 
-    def process({user, project, _count}) do
-      Issues.GithubIssues.fetch(user, project)
-      |> decode_response
-      |> convert_to_list_of_maps
-    end
 
-    def decode_response({:ok, body}), do: body
-
-    def decode_response({:error, body}) do
-      {_, message} = List.keyfind(error, "message", 0)
-      IO.puts "Error fetching from Github: #{message}"
-      System.halt(2)
-    end
-
-   def convert_to_list_of_maps(list) do
-     list
-     |> Enum.map(&Enum.into(&1, Map.new))
-   end
 end
