@@ -1,6 +1,6 @@
 # Issues
 
-**TODO: Add description**
+Elixir sample app
 
 ## Installation
 
